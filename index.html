@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sneakers Product Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-wite-100 text-gray-800">
+    <!-- Header -->
+    <header class="p-6 flex justify-between">
+      <div class="flex items-center justify-around lg:w-[30rem] lg:ml-[7rem]">
+        <div class="flex items-center">
+          <button class="lg:hidden block">
+            <img src="./images/icon-menu.svg" alt="menu" class="w-5 h-5 mr-5" />
+          </button>
+          <h1 class="text-2xl font-bold">sneakers</h1>
+        </div>
+
+        <div>
+          <!-- Desktop nav -->
+          <nav class="hidden lg:flex gap-6 text-sm text-gray-600">
+            <a href="#" class="hover:text-orange-500">Collections</a>
+            <a href="#" class="hover:text-orange-500">Men</a>
+            <a href="#" class="hover:text-orange-500">Women</a>
+            <a href="#" class="hover:text-orange-500">About</a>
+            <a href="#" class="hover:text-orange-500">Contact</a>
+          </nav>
+        </div>
+
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <img
+            src="./images/icon-cart.svg"
+            alt="cart"
+            class="w-5 h-5 cursor-pointer"
+          />
+          <span id="cart-count-badge" class="hidden absolute -top-2 -right-2 bg-orange-500 text-white text-xs font-bold rounded-full px-2 py-0.5">0</span>
+        </div>
+        <img
+          src="images/image-avatar.png"
+          alt="avatar"
+          class="w-8 h-8 rounded-full"
+        />
+      </div>
+
+      <!-- Mobile Nav Menu -->
+      <nav id="mobile-nav" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 p-6 space-y-6 text-sm text-gray-600 lg:hidden hidden">
+        <button id="close-mobile-nav" class="mb-8 text-2xl font-bold text-gray-700 hover:text-orange-500" aria-label="Close menu">&times;</button>
+        <a href="#" class="block hover:text-orange-500">Collections</a>
+        <a href="#" class="block hover:text-orange-500">Men</a>
+        <a href="#" class="block hover:text-orange-500">Women</a>
+        <a href="#" class="block hover:text-orange-500">About</a>
+        <a href="#" class="block hover:text-orange-500">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Main Product Section -->
+    <main
+      class="max-w-6xl mx-auto p-6 grid grid-cols-1 xl:grid-cols-2 gap-16 items-center"
+    >
+      <!-- Product Image -->
+      <div>
+        <img
+          src="images/image-product-1.jpg"
+          alt="Sneakers"
+          class="rounded-xl w-full cursor-pointer"
+        />
+        <div class=" hidden lg:flex gap-4 justify-between mt-6 cursor-pointer">
+          <img
+            src="images/image-product-1-thumbnail.jpg"
+            class="w-[100px] h-[100px] border-2 border-orange-500 rounded-lg cursor-pointer hover:border-orange-600"
+          />
+          <img
+            src="images/image-product-2-thumbnail.jpg"
+            class="w-[100px] h-[100px] rounded-lg cursor-pointer hover:border-orange-600"
+          />
+          <img
+            src="images/image-product-3-thumbnail.jpg"
+            class="w-[100px] h-[100px] rounded-lg cursor-pointer hover:border-orange-600"
+          />
+          <img
+            src="images/image-product-4-thumbnail.jpg"
+            class="w-[100px] h-[100px] rounded-lg cursor-pointer hover:border-orange-600"
+          />
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="space-y-6">
+        <p class="text-sm uppercase tracking-widest text-orange-500 font-bold">
+          Sneaker Company
+        </p>
+        <h2 class="text-4xl font-bold leading-tight">
+          Fall Limited Edition Sneakers
+        </h2>
+        <p class="text-gray-500">
+          These low-profile sneakers are your perfect casual wear companion.
+          Featuring a durable rubber outer sole, they'll withstand everything
+          the weather can offer.
+        </p>
+
+        <div>
+          <div class="flex items-center gap-4">
+            <span class="text-2xl font-bold">$125.00</span>
+            <span class="bg-black text-white px-2 py-1 text-sm rounded-md"
+              >50%</span
+            >
+          </div>
+          <p class="line-through text-gray-400 text-sm">$250.00</p>
+        </div>
+
+        <!-- Quantity and Add to Cart -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div
+            class="flex items-center justify-between bg-gray-100 rounded-lg px-4 py-2 w-full sm:w-40"
+          >
+            <button class="text-orange-500 font-bold text-lg btn-minus hover:text-orange-600" aria-label="Decrease quantity">-</button>
+            <span class="font-semibold quantity-display">0</span>
+            <button class="text-orange-500 font-bold text-lg btn-plus hover:text-orange-600" aria-label="Increase quantity">+</button>
+          </div>
+
+          <button
+            class="flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-600 font-semibold rounded-lg px-6 py-3 w-full btn-add-to-cart hover:shadow-lg"
+          >
+            <svg width="22" height="20" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M20.925 3.641H3.863L3.61.816A.896.896 0 0 0 2.717 0H.897a.896.896 0 1 0 0 1.792h1l1.031 11.483c.073.828.52 1.726 1.291 2.336C2.83 17.385 4.099 20 6.359 20c1.875 0 3.197-1.87 2.554-3.642h4.905c-.642 1.77.677 3.642 2.555 3.642a2.72 2.72 0 0 0 2.717-2.717 2.72 2.72 0 0 0-2.717-2.717H6.365c-.681 0-1.274-.41-1.53-1.009l14.321-.842a.896.896 0 0 0 .817-.677l1.821-7.283a.897.897 0 0 0-.87-1.114ZM6.358 18.208a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm10.015 0a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm2.021-7.243-13.8.81-.57-6.341h15.753l-1.383 5.53Z"
+                fill="#00000"
+                fill-rule="nonzero"
+              /></svg>
+            Add to cart
+          </button>
+        </div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
