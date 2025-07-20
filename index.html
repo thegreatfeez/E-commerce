@@ -11,7 +11,7 @@
     <header class="p-6 flex justify-between">
       <div class="flex items-center justify-around lg:w-[30rem] lg:ml-[7rem]">
         <div class="flex items-center">
-          <button class="lg:hidden block">
+          <button class="lg:hidden block" id="burger-btn">
             <img src="./images/icon-menu.svg" alt="menu" class="w-5 h-5 mr-5" />
           </button>
           <h1 class="text-2xl font-bold">sneakers</h1>
@@ -20,11 +20,11 @@
         <div>
           <!-- Desktop nav -->
           <nav class="hidden lg:flex gap-6 text-sm text-gray-600">
-            <a href="#" class="hover:text-orange-500">Collections</a>
-            <a href="#" class="hover:text-orange-500">Men</a>
-            <a href="#" class="hover:text-orange-500">Women</a>
-            <a href="#" class="hover:text-orange-500">About</a>
-            <a href="#" class="hover:text-orange-500">Contact</a>
+            <a href="collection.html" class="hover:text-orange-500">Collections</a>
+            <a href="men.html" class="hover:text-orange-500">Men</a>
+            <a href="women.html" class="hover:text-orange-500">Women</a>
+            <a href="about.html" class="hover:text-orange-500">About</a>
+            <a href="contact.html" class="hover:text-orange-500">Contact</a>
           </nav>
         </div>
 
@@ -36,6 +36,7 @@
             src="./images/icon-cart.svg"
             alt="cart"
             class="w-5 h-5 cursor-pointer"
+            id="cart-icon"
           />
           <span id="cart-count-badge" class="hidden absolute -top-2 -right-2 bg-orange-500 text-white text-xs font-bold rounded-full px-2 py-0.5">0</span>
         </div>
@@ -67,23 +68,28 @@
           src="images/image-product-1.jpg"
           alt="Sneakers"
           class="rounded-xl w-full cursor-pointer"
+          id="main-image"
         />
-        <div class=" hidden lg:flex gap-4 justify-between mt-6 cursor-pointer">
+        <div class=" hidden lg:flex gap-4 justify-between mt-6 cursor-pointer" id="thumbnails">
           <img
             src="images/image-product-1-thumbnail.jpg"
             class="w-[100px] h-[100px] border-2 border-orange-500 rounded-lg cursor-pointer hover:border-orange-600"
+            id="thumbnail-1"
           />
           <img
             src="images/image-product-2-thumbnail.jpg"
             class="w-[100px] h-[100px] rounded-lg cursor-pointer hover:border-orange-600"
+            id="thumbnail-2"
           />
           <img
             src="images/image-product-3-thumbnail.jpg"
             class="w-[100px] h-[100px] rounded-lg cursor-pointer hover:border-orange-600"
+            id="thumbnail-3"
           />
           <img
             src="images/image-product-4-thumbnail.jpg"
             class="w-[100px] h-[100px] rounded-lg cursor-pointer hover:border-orange-600"
+            id="thumbnail-4"
           />
         </div>
       </div>
@@ -117,13 +123,14 @@
           <div
             class="flex items-center justify-between bg-gray-100 rounded-lg px-4 py-2 w-full sm:w-40"
           >
-            <button class="text-orange-500 font-bold text-lg btn-minus hover:text-orange-600" aria-label="Decrease quantity">-</button>
-            <span class="font-semibold quantity-display">0</span>
-            <button class="text-orange-500 font-bold text-lg btn-plus hover:text-orange-600" aria-label="Increase quantity">+</button>
+            <button class="text-orange-500 font-bold text-lg btn-minus hover:text-orange-600" aria-label="Decrease quantity" id="minus-btn">-</button>
+            <span class="font-semibold quantity-display" id="quantity-display">0</span>
+            <button class="text-orange-500 font-bold text-lg btn-plus hover:text-orange-600" aria-label="Increase quantity" id="plus-btn">+</button>
           </div>
 
           <button
             class="flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-600 font-semibold rounded-lg px-6 py-3 w-full btn-add-to-cart hover:shadow-lg"
+            id="add-to-cart-btn"
           >
             <svg width="22" height="20" xmlns="http://www.w3.org/2000/svg">
               <path

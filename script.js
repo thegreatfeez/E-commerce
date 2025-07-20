@@ -1,101 +1,134 @@
-
-const mainImage = document.querySelector('img[alt="Sneakers"]');
-const thumbnails = document.querySelectorAll('.lg\\:flex img');
-let currentImageIndex = 0;
+// Main product image
+const mainImage = document.getElementById('main-image');
+// Thumbnails for desktop
+const thumbnails = [
+  document.getElementById('thumbnail-1'),
+  document.getElementById('thumbnail-2'),
+  document.getElementById('thumbnail-3'),
+  document.getElementById('thumbnail-4')
+];
+// All product images
 const imageSources = [
   'images/image-product-1.jpg',
   'images/image-product-2.jpg',
   'images/image-product-3.jpg',
-  'images/image-product-4.jpg',
+  'images/image-product-4.jpg'
 ];
+let currentImageIndex = 0;
 
-let lightbox;
+// When you click a thumbnail, change the main image
+for (let i = 0; i < thumbnails.length; i++) {
+  thumbnails[i].addEventListener('click', function(e) {
+    mainImage.src = imageSources[i];
+    currentImageIndex = i;
+    // Add border to selected thumbnail
+    for (let k = 0; k < thumbnails.length; k++) {
+      thumbnails[k].classList.remove('border-2');
+      thumbnails[k].classList.remove('border-orange-500');
+    }
+    thumbnails[i].classList.add('border-2');
+    thumbnails[i].classList.add('border-orange-500');
+  });
+}
+
+// Lightbox functionality (big image popup)
+let lightbox = null;
 function openLightbox(index) {
   if (!lightbox) {
     lightbox = document.createElement('div');
     lightbox.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50';
-    lightbox.innerHTML = `
-      <div class="relative bg-white rounded-xl p-4 flex flex-col items-center">
-        <button class="absolute top-2 right-2 text-gray-700 hover:text-orange-500 text-2xl font-bold btn-lightbox-close">&times;</button>
-        <img src="${imageSources[index]}" class="rounded-xl w-[400px] h-[400px] object-cover mb-4 lightbox-main-img" />
-        <div class="flex gap-4 mb-2">
-          <button class="btn-lightbox-prev text-2xl">&#8592;</button>
-          <button class="btn-lightbox-next text-2xl">&#8594;</button>
-        </div>
-        <div class="flex gap-2 mt-2">
-          ${imageSources.map((src, i) => `<img src="images/image-product-${i+1}-thumbnail.jpg" class="w-16 h-16 rounded-lg cursor-pointer lightbox-thumb ${i === index ? 'border-2 border-orange-500' : ''}" data-index="${i}" />`).join('')}
-        </div>
-      </div>
-    `;
+    // Lightbox content
+    const box = document.createElement('div');
+    box.className = 'relative bg-white rounded-xl p-4 flex flex-col items-center';
+    // Close button
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'absolute top-2 right-2 text-gray-700 hover:text-orange-500 text-2xl font-bold';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.onclick = function() {
+      lightbox.style.display = 'none';
+    };
+    box.appendChild(closeBtn);
+    // Main image
+    const bigImg = document.createElement('img');
+    bigImg.className = 'rounded-xl w-[400px] h-[400px] object-cover mb-4';
+    bigImg.src = imageSources[index];
+    box.appendChild(bigImg);
+    // Prev/Next buttons
+    const navDiv = document.createElement('div');
+    navDiv.className = 'flex gap-4 mb-2';
+    const prevBtn = document.createElement('button');
+    prevBtn.innerHTML = '&#8592;';
+    prevBtn.className = 'text-2xl';
+    prevBtn.onclick = function() {
+      let newIndex = index - 1;
+      if (newIndex < 0) newIndex = imageSources.length - 1;
+      document.body.removeChild(lightbox);
+      lightbox = null;
+      openLightbox(newIndex);
+    };
+    const nextBtn = document.createElement('button');
+    nextBtn.innerHTML = '&#8594;';
+    nextBtn.className = 'text-2xl';
+    nextBtn.onclick = function() {
+      let newIndex = index + 1;
+      if (newIndex >= imageSources.length) newIndex = 0;
+      document.body.removeChild(lightbox);
+      lightbox = null;
+      openLightbox(newIndex);
+    };
+    navDiv.appendChild(prevBtn);
+    navDiv.appendChild(nextBtn);
+    box.appendChild(navDiv);
+    // Thumbnails in lightbox
+    const thumbsDiv = document.createElement('div');
+    thumbsDiv.className = 'flex gap-2 mt-2';
+    for (let i = 0; i < imageSources.length; i++) {
+      const thumb = document.createElement('img');
+      thumb.src = 'images/image-product-' + (i+1) + '-thumbnail.jpg';
+      thumb.className = 'w-16 h-16 rounded-lg cursor-pointer';
+      if (i === index) {
+        thumb.className += ' border-2 border-orange-500';
+      }
+      thumb.onclick = function() {
+        document.body.removeChild(lightbox);
+        lightbox = null;
+        openLightbox(i);
+      };
+      thumbsDiv.appendChild(thumb);
+    }
+    box.appendChild(thumbsDiv);
+    lightbox.appendChild(box);
     document.body.appendChild(lightbox);
   } else {
-    lightbox.querySelector('.lightbox-main-img').src = imageSources[index];
-    lightbox.querySelectorAll('.lightbox-thumb').forEach((thumb, i) => {
-      thumb.classList.toggle('border-2', i === index);
-      thumb.classList.toggle('border-orange-500', i === index);
-    });
     lightbox.style.display = 'flex';
   }
-  currentImageIndex = index;
-  // Close button
-  lightbox.querySelector('.btn-lightbox-close').onclick = () => {
-    lightbox.style.display = 'none';
-  };
-  // Prev/Next
-  lightbox.querySelector('.btn-lightbox-prev').onclick = () => {
-    let newIndex = (currentImageIndex - 1 + imageSources.length) % imageSources.length;
-    openLightbox(newIndex);
-  };
-  lightbox.querySelector('.btn-lightbox-next').onclick = () => {
-    let newIndex = (currentImageIndex + 1) % imageSources.length;
-    openLightbox(newIndex);
-  };
-  // Thumbnails
-  lightbox.querySelectorAll('.lightbox-thumb').forEach(thumb => {
-    thumb.onclick = (e) => {
-      openLightbox(Number(thumb.dataset.index));
-    };
-  });
 }
 
-mainImage.addEventListener('click', () => openLightbox(currentImageIndex));
-
-
-const desktopThumbnails = document.querySelectorAll('.lg\\:flex img');
-desktopThumbnails.forEach((thumb, i) => {
-  thumb.addEventListener('click', () => {
-    mainImage.src = imageSources[i];
-    currentImageIndex = i;
-    desktopThumbnails.forEach((t, j) => {
-      t.classList.toggle('border-2', j === i);
-      t.classList.toggle('border-orange-500', j === i);
-    });
-  });
+mainImage.addEventListener('click', function() {
+  openLightbox(currentImageIndex);
 });
 
-// Quantity Selector
-const quantityDisplay = document.querySelector('.quantity-display');
-const minusBtn = document.querySelector('.btn-minus');
-const plusBtn = document.querySelector('.btn-plus');
+// Quantity selector
+const quantityDisplay = document.getElementById('quantity-display');
+const minusBtn = document.getElementById('minus-btn');
+const plusBtn = document.getElementById('plus-btn');
 let quantity = 0;
 
-minusBtn.addEventListener('click', () => {
+minusBtn.addEventListener('click', function() {
   if (quantity > 0) {
-    quantity--;
+    quantity = quantity - 1;
     quantityDisplay.textContent = quantity;
   }
 });
 
-plusBtn.addEventListener('click', () => {
-  quantity++;
+plusBtn.addEventListener('click', function() {
+  quantity = quantity + 1;
   quantityDisplay.textContent = quantity;
 });
 
-//  Add to Cart
-const addToCartBtn = document.querySelector('.btn-add-to-cart');
+// Add to cart
+const addToCartBtn = document.getElementById('add-to-cart-btn');
 let cart = { count: 0 };
-
-// Cart count badge
 const cartCountBadge = document.getElementById('cart-count-badge');
 
 function updateCartCountBadge() {
@@ -107,9 +140,9 @@ function updateCartCountBadge() {
   }
 }
 
-addToCartBtn.addEventListener('click', () => {
+addToCartBtn.addEventListener('click', function() {
   if (quantity > 0) {
-    cart.count += quantity;
+    cart.count = cart.count + quantity;
     quantity = 0;
     quantityDisplay.textContent = quantity;
     updateCartDisplay();
@@ -117,18 +150,22 @@ addToCartBtn.addEventListener('click', () => {
   }
 });
 
-// Cart View and Removal
-const cartIcon = document.querySelector('img[alt="cart"]');
-let cartDropdown;
+// Cart dropdown
+const cartIcon = document.getElementById('cart-icon');
+let cartDropdown = null;
 
-cartIcon.addEventListener('click', () => {
+cartIcon.addEventListener('click', function() {
   if (!cartDropdown) {
     cartDropdown = document.createElement('div');
     cartDropdown.className = 'absolute right-10 top-20 bg-white shadow-lg rounded-lg p-6 w-80 z-50';
     document.body.appendChild(cartDropdown);
   }
-  updateCartDisplay();
-  cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
+  if (cartDropdown.style.display === 'block') {
+    cartDropdown.style.display = 'none';
+  } else {
+    updateCartDisplay();
+    cartDropdown.style.display = 'block';
+  }
 });
 
 function updateCartDisplay() {
@@ -146,21 +183,20 @@ function updateCartDisplay() {
   } else {
     const item = document.createElement('div');
     item.className = 'flex items-center justify-between mb-4';
-    item.innerHTML = `
-      <img src="images/image-product-1-thumbnail.jpg" class="w-12 h-12 rounded mr-4" />
-      <div class="flex-1">
-        <p class="text-gray-700">Fall Limited Edition Sneakers</p>
-        <p class="text-gray-500">$125.00 x ${cart.count} <span class="font-bold text-gray-800">$${(125 * cart.count).toFixed(2)}</span></p>
-      </div>
-      <button id="remove-item" class="ml-4"><img src="images/icon-delete.svg" class="w-5 h-5" /></button>
-    `;
+    item.innerHTML = '<img src="images/image-product-1-thumbnail.jpg" class="w-12 h-12 rounded mr-4" />' +
+      '<div class="flex-1">' +
+      '<p class="text-gray-700">Fall Limited Edition Sneakers</p>' +
+      '<p class="text-gray-500">$125.00 x ' + cart.count + ' <span class="font-bold text-gray-800">$' + (125 * cart.count).toFixed(2) + '</span></p>' +
+      '</div>' +
+      '<button id="remove-item" class="ml-4"><img src="images/icon-delete.svg" class="w-5 h-5" /></button>';
     cartDropdown.appendChild(item);
     const checkoutBtn = document.createElement('button');
     checkoutBtn.textContent = 'Checkout';
     checkoutBtn.className = 'w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 rounded-lg';
     cartDropdown.appendChild(checkoutBtn);
     // Remove item
-    item.querySelector('#remove-item').addEventListener('click', () => {
+    const removeBtn = item.querySelector('#remove-item');
+    removeBtn.addEventListener('click', function() {
       cart.count = 0;
       updateCartDisplay();
       updateCartCountBadge();
@@ -169,21 +205,19 @@ function updateCartDisplay() {
   updateCartCountBadge();
 }
 
-
-
 // Initialize badge on page load
 updateCartCountBadge();
 
-// Mobile Nav Toggle
-const burgerBtn = document.querySelector('button.lg\\:hidden');
+// Mobile nav toggle
+const burgerBtn = document.getElementById('burger-btn');
 const mobileNav = document.getElementById('mobile-nav');
 const closeMobileNavBtn = document.getElementById('close-mobile-nav');
 
 if (burgerBtn && mobileNav && closeMobileNavBtn) {
-  burgerBtn.addEventListener('click', () => {
+  burgerBtn.addEventListener('click', function() {
     mobileNav.classList.remove('hidden');
   });
-  closeMobileNavBtn.addEventListener('click', () => {
+  closeMobileNavBtn.addEventListener('click', function() {
     mobileNav.classList.add('hidden');
   });
 } 
