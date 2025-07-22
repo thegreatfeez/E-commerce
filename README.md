@@ -10,7 +10,7 @@ A responsive product page built using **HTML**, **Tailwind CSS**, and **JavaScri
 
 ## 📸 Screenshot
 
-![Sneakers Product Page Preview](/images/screenshot.png)
+![Sneakers Product Page Preview](images/screenshot.png)
 
 
 
